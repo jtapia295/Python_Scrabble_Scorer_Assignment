@@ -26,15 +26,15 @@ def initial_prompt():
             user_name = input('Please enter your name')
     print('''\n\n''')
     print(f"Welcome {user_name}, please enter a word you'd like to use for scrabble")
-    user_word = str(input('Please enter your word to grade')).lower()   
+    user_word = input('Please enter your word to grade').lower()   
 
     while len(user_word) > 30:
         print('Sorry that is too long')
-        user_word  
+        user_word = str(input('Please enter your word to grade')).lower()   
     for index in list(user_word):
         while index in list(str(string.digits)) or index in list(string.punctuation):
             print('Sorry we are only accepting letters')
-            user_word
+            user_word = input('Please enter your word to grade').lower()   
     return [user_word,user_name]
 
 
@@ -48,7 +48,7 @@ def vowel_bonus_scorer(word):
     for vowel in vowels:
         if vowel in word:
             word_score += 2
-    return 
+    return word_score
 
 def scrabble_scorer(word):
     word_score = 0
