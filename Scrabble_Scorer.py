@@ -19,11 +19,11 @@ OLD_POINT_STRUCTURE = {
 def initial_prompt():
     print("Let's play some Scrabble!\n")
     print('Please enter your name\n')
-    user_name = str(input('Please enter your name')).upper()
+    user_name = input('Please enter your name')
     for digit in list(string.digits):
         while digit in list(user_name):
             print('Sorry please only provide letters')
-            user_name = str(input('Please enter your name')).upper()
+            user_name = input('Please enter your name')
     print('''\n\n''')
     print(f"Welcome {user_name}, please enter a word you'd like to use for scrabble")
     user_word = str(input('Please enter your word to grade')).lower()   
@@ -32,7 +32,7 @@ def initial_prompt():
         print('Sorry that is too long')
         user_word  
     for index in list(user_word):
-        while index in list(str(string.digits)) | index in list(string.punctuation):
+        while index in list(str(string.digits)) or index in list(string.punctuation):
             print('Sorry we are only accepting letters')
             user_word
     return [user_word,user_name]
@@ -53,7 +53,7 @@ def vowel_bonus_scorer(word):
 def scrabble_scorer(word):
     word_score = 0
     for char in word:
-        word_score = word_score + new_point_structure[char]
+        word_score += new_point_structure[char]
     return word_score
 
 scoring_algorithms = ()
@@ -62,16 +62,13 @@ def scorer_prompt(word):
     user_choice = int(input('Please select an algorithm'))
     while user_choice not in [0,1,2]:
         print('Sorry please enter on the digits 0,1 or 2')
-        user_choice
+        user_choice = int(input('Please select an algorithm'))
     if user_choice == 0:
-        print("You selected 0")
         word_score = simple_scorer(word)
     elif user_choice == 1:
         word_score = vowel_bonus_scorer(word)
-    elif user_choice == 2:
-        print('You selected 2')
+    else:
         word_score = scrabble_scorer(word)
-
     return word_score
 
 def transform(old_dictionary):
@@ -80,16 +77,16 @@ def transform(old_dictionary):
         for key in old_dictionary:
             if letter in old_dictionary[key]:
                 new_point_structure[letter.lower()] = key
+    new_point_structure[' '] = 0
     return new_point_structure
 
 new_point_structure = transform(OLD_POINT_STRUCTURE)
 
 
-
-
 def run_program():
-    word = initial_prompt()[0]
-    name = word[1]
+    prompt_result = initial_prompt()
+    word = prompt_result[0]
+    name = prompt_result[1]
     word_score = 0
     print('''\n\n''')
     print(f'{name}, Which sorting algorithm would you like to use?')
